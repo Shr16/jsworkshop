@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>Earnestek Academy - quiz template using js </title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+</head>
+
+<body>
+  <nav class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="#">Navbar Link</a></li>
+      </ul>
+
+      <ul id="nav-mobile" class="side-nav">
+        <li><a href="#">Navbar Link</a></li>
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
+  
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <br><br>
+      <h1 class="header center orange-text">Quiz time!</h1>
+      <div class="row center">
+        <h5 class="header col s12 light">A JS powered quiz based on Material Design</h5>
+      </div>
+      <div class="row center">
+        <a id="download-button" class="btn-large waves-effect waves-light orange" onclick="init_quiz(); return false">Get Started</a>
+      </div>
+      <br><br>
+    </div>
+  </div>
+
+
+  <div class="container">
+    <div class="section">
+
+      <!--   Quiz   -->
+      <div class="row" id="quiz" style="display:none;">
+        
+        <div class="center">
+            <div class="row"> 
+                <progress id="qtn_prog" value="0" max="5" style="width:100%;"></progress>
+            </div>
+    
+    <div> 
+        <div> question <span id="qtn_num">1</span> of 5 </div>
+        <form>
+            <h2>question goes here?</h2>
+                <div class="section">
+                    <input type="radio" id="Choice1" name="answers" value="option 1"> <label for="Choice1">Option 1</label>
+                    <input type="radio" id="Choice2" name="answers" value="option 2"> <label for="Choice2">Option 2</label>
+                    <input type="radio" id="Choice3" name="answers" value="option 3"> <label for="Choice3">Option 3</label>
+                    <input type="radio" id="Choice4" name="answers" value="option 4"> <label for="Choice4">Option 4</label>
+                </div>
+                <div class="section">
+                    <button id="submit" type="submit" class="btn waves-effect waves-light orange" onclick="show_qtn()" >Submit</button>
+                    <button id ="hint" type="submit" class="btn waves-effect waves-light orange" onclick="show_hint(); return false;" >Hint</button>
+                    <button type="submit" id = "nextquestion" class="btn waves-effect waves-light orange" onclick="next_qtn(); return false;" >Next Question</button>
+                </div>
+        </form>
+        <div id= "answer_description" class="section" style="display:none;"> Es ist ein lang erwiesener Fakt, dass ein Leser vom Text abgelenkt wird, wenn er sich ein Layout ansieht. Der Punkt, Lorem Ipsum zu nutzen, ist, dass es mehr oder weniger die normale Anordnung von Buchstaben darstellt und somit nach lesbarer Sprache aussieht. Viele Desktop Publisher und Webeditoren nutzen mittlerweile Lorem Ipsum als den Standardtext, auch die Suche im Internet nach "lorem ipsum" macht viele Webseiten sichtbar, wo diese noch immer vorkommen. Mittlerweile gibt es mehrere Versionen des Lorem Ipsum, einige zufällig, andere bewusst (beeinflusst von Witz und des eigenen Geschmacks)</div>
+    </div>
+    
+        </div>
+      </div>
+
+    </div>
+    <br><br>
+  </div>
+
+  <footer class="page-footer orange">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">Company Bio</h5>
+          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+
+
+        </div>
+        <div class="col l3 s12">
+          <h5 class="white-text">Settings</h5>
+          <ul>
+            <li><a class="white-text" href="#!">Link 1</a></li>
+            <li><a class="white-text" href="#!">Link 2</a></li>
+            <li><a class="white-text" href="#!">Link 3</a></li>
+            <li><a class="white-text" href="#!">Link 4</a></li>
+          </ul>
+        </div>
+        <div class="col l3 s12">
+          <h5 class="white-text">Connect</h5>
+          <ul>
+            <li><a class="white-text" href="#!">Link 1</a></li>
+            <li><a class="white-text" href="#!">Link 2</a></li>
+            <li><a class="white-text" href="#!">Link 3</a></li>
+            <li><a class="white-text" href="#!">Link 4</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+      Made by <a class="orange-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+  <script src="js/custom.js"></script>
+  </body>
+</html>
