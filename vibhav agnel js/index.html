@@ -48,26 +48,26 @@
         
         <div class="center">
             <div class="row"> 
-                <progress id="qtn_prog" value="0" max="5" style="width:100%;"></progress>
+                <progress id="qtn_prog" value="1" max="5" style="width:100%;"></progress>
             </div>
     
     <div> 
-        <div> question <span id="qtn_num">1</span> of 5 </div>
+        <div> Question <span id="qtn_num">1</span> of 5 </div>
         <form>
-            <h2>question goes here?</h2>
-                <div class="section">
-                    <input type="radio" id="Choice1" name="answers" value="option 1"> <label for="Choice1">Option 1</label>
-                    <input type="radio" id="Choice2" name="answers" value="option 2"> <label for="Choice2">Option 2</label>
-                    <input type="radio" id="Choice3" name="answers" value="option 3"> <label for="Choice3">Option 3</label>
-                    <input type="radio" id="Choice4" name="answers" value="option 4"> <label for="Choice4">Option 4</label>
+            <h2 id="question">question goes here?</h2>
+                <div class="section" id="options">
+                    <input type="radio" id="Choice1" name="answers" value="a"> <label id="option1" for="Choice1">Option 1</label>
+                    <input type="radio" id="Choice2" name="answers" value="b"> <label id="option2" for="Choice2">Option 2</label>
+                    <input type="radio" id="Choice3" name="answers" value="c"> <label id="option3" for="Choice3">Option 3</label>
+                    <input type="radio" id="Choice4" name="answers" value="d"> <label id="option4" for="Choice4">Option 4</label>
                 </div>
                 <div class="section">
-                    <button id="submit" type="submit" class="btn waves-effect waves-light orange" onclick="show_qtn()" >Submit</button>
+                    <button id="submit" type="submit" class="btn waves-effect waves-light orange" onclick="submit_btn(); return false;" >Submit</button>
                     <button id ="hint" type="submit" class="btn waves-effect waves-light orange" onclick="show_hint(); return false;" >Hint</button>
                     <button type="submit" id = "nextquestion" class="btn waves-effect waves-light orange" onclick="next_qtn(); return false;" >Next Question</button>
                 </div>
         </form>
-        <div id= "answer_description" class="section" style="display:none;"> Es ist ein lang erwiesener Fakt, dass ein Leser vom Text abgelenkt wird, wenn er sich ein Layout ansieht. Der Punkt, Lorem Ipsum zu nutzen, ist, dass es mehr oder weniger die normale Anordnung von Buchstaben darstellt und somit nach lesbarer Sprache aussieht. Viele Desktop Publisher und Webeditoren nutzen mittlerweile Lorem Ipsum als den Standardtext, auch die Suche im Internet nach "lorem ipsum" macht viele Webseiten sichtbar, wo diese noch immer vorkommen. Mittlerweile gibt es mehrere Versionen des Lorem Ipsum, einige zufällig, andere bewusst (beeinflusst von Witz und des eigenen Geschmacks)</div>
+        <div id= "answer_description" class="section light-blue" style="display:none;"> Es ist ein lang erwiesener Fakt, dass ein Leser vom Text abgelenkt wird, wenn er sich ein Layout ansieht. Der Punkt, Lorem Ipsum zu nutzen, ist, dass es mehr oder weniger die normale Anordnung von Buchstaben darstellt und somit nach lesbarer Sprache aussieht. Viele Desktop Publisher und Webeditoren nutzen mittlerweile Lorem Ipsum als den Standardtext, auch die Suche im Internet nach "lorem ipsum" macht viele Webseiten sichtbar, wo diese noch immer vorkommen. Mittlerweile gibt es mehrere Versionen des Lorem Ipsum, einige zufällig, andere bewusst (beeinflusst von Witz und des eigenen Geschmacks)</div>
     </div>
     
         </div>
