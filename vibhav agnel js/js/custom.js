@@ -157,5 +157,6 @@ function chart(){
 			] 
 		} 
 		] 
-	}); 
+    });
+    $('#canvasjs').css('height','500px');
 }

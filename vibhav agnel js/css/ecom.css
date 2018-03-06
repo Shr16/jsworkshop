@@ -130,3 +130,9 @@ nav .brand-logo {
   width: auto;
   margin: auto;
 }
+
+
+
+#cartbtn{
+  float: left;
+}

@@ -10,21 +10,6 @@
   <link href="../css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="../css/ecom.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-
-  <script type="text/javascript">
-    function addToCart(productid){
-      cartItems = new Array();
-      if (sessionStorage.getItem("cartItems") === null) {
-          cartItems.push(productid);
-        }
-      else{
-          cartItems = JSON.parse(sessionStorage.getItem("cartItems"));
-          cartItems.push(productid);
-      }
-      sessionStorage.setItem("cartItems",JSON.stringify(cartItems));
-      jQuery('.badge').html(cartItems.length);
-    }
-  </script>
   
 </head>
 
@@ -32,7 +17,7 @@
   <nav class="light-blue lighten-1" role="navigation">
     <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
       <ul class="right hide-on-med-and-down">
-          <li><a href="/cart.html">Cart<span class="new badge red " data-badge-caption="Items">4</span></a></li>
+          <li><a onclick="openModal1()"><i class="material-icons" id='cartbtn'>&nbsp;shopping_cart</i>CART<span class="new badge red " data-badge-caption="Items">4</span></a></li>
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
@@ -198,6 +183,17 @@
         </div>
       </div>
     </div>
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal">
+      <div class="modal-content">
+        <h4>Shopping Cart</h4>
+        <div id="modal_content" class="row">
+      
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Checkout</a>
+        </div>
+      </div>
 
 </body>
 <footer class="page-footer orange">
@@ -235,9 +231,55 @@
           </div>
         </div>
     <!--  Scripts-->
-      <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-      <script src="../js/materialize.js"></script>
-      <script src="js/init.js"></script>
-      <script src="../js/ecomm.js"></script>
+    <script type="text/javascript" src="../js/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="js/init.js"></script>
+  <script type="text/javascript" src="../js/materialize.js"></script>
+  <script type="text/javascript" src="../js/ecomm.js"></script>
+
+  <script type="text/javascript">
+    function addToCart(productid){
+      cartItems = new Array();
+      if (sessionStorage.getItem("cartItems") === null) {
+          cartItems.push(productid);
+        }
+      else{
+          cartItems = JSON.parse(sessionStorage.getItem("cartItems"));
+          cartItems.push(productid);
+      }
+      sessionStorage.setItem("cartItems",JSON.stringify(cartItems));
+      jQuery('.badge').html(cartItems.length);
+    }
+    function openModal1() {
+      //simulate ajax call to get the modal content
+      var htmlFromServer = getHtml();
+
+      //append the html to the modal
+      $('#modal_content').html(htmlFromServer);
+      //open the modal
+      $('#modal1').openModal();
+    }
+    function getHtml() {
+  return '<div class="col s12">' +
+    '<ul class="tabs">' +
+    '<li class="tab col s3 active"><a href="#test1">Test 1</a></li>' +
+    '<li class="tab col s3"><a href="#test2">Test 2</a></li>' +
+    '<li class="tab col s3 disabled"><a href="#test3">Disabled Tab</a></li>' +
+    '<li class="tab col s3"><a href="#test4">Test 4</a></li>' +
+    '</ul></div>' +
+    '<div id="test1" class="col s12">default tab</div>' +
+    '<div id="test2" class="col s12">' +
+    '<div class="row country-other">' +
+    '<div class="input-field col s12">' +
+    '<input type="text" class="validate" id="address_detail">' +
+    '<label class="active" for="address_detail">This tab is not default</label>' +
+    '</div>' +
+    '</div>' +
+    '</div>' +
+    '<div id="test3" class="col s12">Test 3</div>' +
+    '<div id="test4" class="col s12">Test 4</div>';
+};
+  </script>
+      
+      
 </footer>
 </html>

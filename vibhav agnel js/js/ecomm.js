@@ -7,7 +7,8 @@ $('select').material_select();
 //Searcher
 $( "#search" ).keyup(function( event ) {
   var value = $(this).val();
-  if ( event.which == 13 ) {
+  console.log(event);
+  if(event.which == 13) {
      event.preventDefault();
   }
   //console.log("Filter..."+value);
@@ -23,28 +24,14 @@ function applyTitleFilter(data){
 function filterByAttr(attr, value, data) {
   console.log(attr,value);
   var value = value.toLowerCase();
+  console.log(value);
   return $.grep(data, function(n, i) {
+      console.log(n);
+      console.log(i);
+    console.log(n[attr].toLowerCase().indexOf(value));
     return n[attr].toLowerCase().indexOf(value) != -1;
-
   });
 }
-
-function addToCart(productid){
-    cartItems = new Array();
-    if (sessionStorage.getItem("cartItems") === null) {
-        cartItmes.push(productid);
-      }
-    else{
-        cartItems = sessionStorage.getItem("cartItems");
-        cartItems.push(productid);
-    }
-    sessionStorage.setItem("cartItems",cartItems);
-    carta = sessionStorage.getItem("cartItems");
-    console.log(carta);
-    console.log(cartItems);
-   
-}
-
 
 function renderCards(data) {
   console.log("RENDERING");
@@ -427,6 +414,7 @@ function initCountrySelect(){
   });
   selectHTML.material_select();
 }
+
 initCountrySelect();
 
 //FILTER EVENTS:
@@ -468,13 +456,13 @@ function applyFilters(){
   console.log($('input[name="product-type-filter"]:checked').serialize());
   
   eventArray = applyEventTypeFilter(data);
+  console.log(eventArray);
   eventArray = applyCountryFilter(eventArray);
+  console.log(eventArray);
   eventArray = applyTitleFilter(eventArray);
+  console.log(eventArray);
   return eventArray;
 }
-
-
-
 
 //HELPER
 function mergeJSONObjectsRemovingDuplicates(arr1, arr2){
@@ -492,5 +480,53 @@ function mergeJSONObjectsRemovingDuplicates(arr1, arr2){
   });
   return arr1;
 }
+
+//init the modal
+//$('.modal-trigger').leanModal();
+
+function openModal1() {
+  //simulate ajax call to get the modal content
+  var htmlFromServer = getHtml();
+
+  //append the html to the modal
+  $('#modal_content').html(htmlFromServer);
+  //open the modal
+  $('#modal1').openModal();
+};
+
+function openModal2() {
+  //simulate ajax call to get the modal content
+  var htmlFromServer = getHtml();
+
+  //append the html to the modal
+  $('#modal_content').html(htmlFromServer);
+  //init the tabs
+  $('ul.tabs').tabs();
+  //select the first tab
+  $('ul.tabs').tabs('select_tab', 'test1');
+  //open the modal
+  $('#modal1').openModal();
+};
+
+function getHtml() {
+  return '<div class="col s12">' +
+    '<ul class="tabs">' +
+    '<li class="tab col s3 active"><a href="#test1">Test 1</a></li>' +
+    '<li class="tab col s3"><a href="#test2">Test 2</a></li>' +
+    '<li class="tab col s3 disabled"><a href="#test3">Disabled Tab</a></li>' +
+    '<li class="tab col s3"><a href="#test4">Test 4</a></li>' +
+    '</ul></div>' +
+    '<div id="test1" class="col s12">default tab</div>' +
+    '<div id="test2" class="col s12">' +
+    '<div class="row country-other">' +
+    '<div class="input-field col s12">' +
+    '<input type="text" class="validate" id="address_detail">' +
+    '<label class="active" for="address_detail">This tab is not default</label>' +
+    '</div>' +
+    '</div>' +
+    '</div>' +
+    '<div id="test3" class="col s12">Test 3</div>' +
+    '<div id="test4" class="col s12">Test 4</div>';
+};
 
 }(jQuery));
