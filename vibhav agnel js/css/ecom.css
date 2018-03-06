@@ -3,7 +3,7 @@
 body {
   background-color: #f0f0f0;
 }
-h4, h5 {s
+h4, h5 {
   font-family: 'Pacifico', cursive;
 }
 
@@ -124,4 +124,9 @@ nav .brand-logo {
 
 #container {
   padding: 20px 10px;
+}
+.card .card-image img{
+  height: 250px;
+  width: auto;
+  margin: auto;
 }

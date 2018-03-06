@@ -1,7 +1,7 @@
 //Init select inputs
 (function($){
 
-//$('select').material_select();
+$('select').material_select();
 
 
 //Searcher
@@ -21,7 +21,7 @@ function applyTitleFilter(data){
 }
 
 function filterByAttr(attr, value, data) {
-  //console.log(data);
+  console.log(attr,value);
   var value = value.toLowerCase();
   return $.grep(data, function(n, i) {
     return n[attr].toLowerCase().indexOf(value) != -1;
@@ -29,13 +29,29 @@ function filterByAttr(attr, value, data) {
   });
 }
 
+function addToCart(productid){
+    cartItems = new Array();
+    if (sessionStorage.getItem("cartItems") === null) {
+        cartItmes.push(productid);
+      }
+    else{
+        cartItems = sessionStorage.getItem("cartItems");
+        cartItems.push(productid);
+    }
+    sessionStorage.setItem("cartItems",cartItems);
+    carta = sessionStorage.getItem("cartItems");
+    console.log(carta);
+    console.log(cartItems);
+   
+}
+
 
 function renderCards(data) {
   console.log("RENDERING");
   var html = '';
   $.each(data, function(key, value) {
-
-    html += '<div class="col s12 m6 l4"><div class="card"><div class="card-content white-text"><div class="card__date"><span class="card__date__day">23</span><span class="card__date__month">Mai</span></div><div class="card__meta"><a href="#"><i class="small material-icons">room</i>' + value.city + '</a></div><span class="card-title grey-text text-darken-4">' + value.title + '</span><p class="card-subtitle grey-text text-darken-2">' + value.description + '</p><span class="text-darken-2 card-info"><i class="small material-icons">label</i>&nbsp;' + value.styles + '</span></div><div class="card-action"><a href="#"><i class="material-icons">&nbsp;language</i>VISIT WEB</a><a href="#" class="card-action-right"><i class="material-icons">&nbsp;room</i>FIND</a> </div></div>';
+    console.log(value);
+    html += '<div class="col s12 m6 l4"><div class="card"><div class="card-content white-text"><div class="card-image"><img src="'+ value.image+'"></div><div class="card__meta"><a href="#"><b>Rs.&nbsp;</b><i>' + value.price + '/-</i> </a></div><span class="card-title grey-text text-darken-4">' + value.title + '</span><p class="card-subtitle grey-text text-darken-2">' + value.description + '</p><span class="text-darken-2 card-info"><i class="small material-icons">label</i>&nbsp;' + value.styles + '</span></div><div class="card-action"><a href="#" class="card-action-right" onclick="addToCart('+value.id+')"><i class="material-icons">&nbsp;add_shopping_cart</i>ADD TO CART</a> </div></div>';
 
     html += '</div>';
   });
@@ -45,128 +61,108 @@ function renderCards(data) {
 
 //DATA:
 var data = [{
-  "id" : 1,
-  "title": "S. Taller de Àlex Mas & Núria Bonet",
-  "begin-date": "24/06/2015",
-  "end-date": "",
-  "lat": "",
-  "lon": "",
-  "country": "Spain",
-  "country-code": "ES",
-  "city": "Vitoria-Gasteiz",
-  "address": "C/ Domingo Beltrán 19, Vitoria-Gasteiz",
-  "organizer": "Swing Up",
-  "email": "info@savoyswingup.com",
-  "web": "http://www.savoyswingup.com",
-  "phone": "656123456",
-  "event_type": "social",
+  "id" : 0,
+  "title": "WD Elements 2.5 inch 1 TB External HDD  (Black)",
+  "capacity": "1TB",
+  "country": "India",
+  "brand": "Western Digital",
+  "image": "../images/wd-elements-original-imadmhegj4jkaghs.jpeg",
+  "country-code": "IN",
+  "product_type": "External HDD",
+  "email": "info@earnestek.com",
+  "web": "https://www.flipkart.com/wd-elements-2-5-inch-1-tb-external-hard-drive/p/itmdmhdqfhr4ndhq?pid=ACCDMHDQJHVRPYAN&lid=LSTACCDMHDQJHVRPYANAOZZLA&marketplace=FLIPKART&srno=b_1_1&otracker=clp_metro_expandable_2_hardd-categ-26eb9_WD_external-hard-disk-store_WQD0Q2NFDK_wp3&fm=neo/merchandising&iid=e1d9daa6-44a6-4ee4-8c68-019ebdc038ff.ACCDMHDQJHVRPYAN.SEARCH&ppt=Store%20Browse&ppn=Search%20Page",
+  "price": "3799",
   "styles": [
-    "lindy hop",
-    "balboa",
-    "blues"
+    "laptop",
+    "2.5"
   ],
-  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque interdum rutrum sodales. Nullam mattis fermentum libero, non volutpat."
+  "description": "This hard drive has a storage capacity of 1 TB that’s sufficient for storing your college graduation day pictures, some of your favourite videos, movies and other personal files. "
 }, {
-  "id" : 2,
-  "title": "C. I CRAZY WEEKEND MADRID 2016!",
-  "begin-date": "24/06/2015",
-  "end-date": "",
-  "country": "Portugal",
-  "country-code": "PT",
-  "city": "Lisboa",
-  "address": "C/ Domingo Beltrán 19, Vitoria-Gasteiz",
-  "organizer": "Swing Up",
-  "email": "info@savoyswingup.com",
-  "web": "http://www.savoyswingup.com",
-  "phone": "656123456",
-  "event_type": "class",
-  "styles": [
-    "lindy hop",
-    "balboa",
-    "blues"
-  ],
-  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque interdum rutrum sodales. Nullam mattis fermentum libero, non volutpat."
-}, {
-  "id" : 3,
-  "title": "F. Fiesta Fin de Trimestre y Despedida de Profes",
-  "begin-date": "24/06/2015",
-  "end-date": "",
-  "country": "Portugal",
-  "country-code": "PT",
-  "city": "Lisboa",
-  "address": "C/ Domingo Beltrán 19, Vitoria-Gasteiz",
-  "organizer": "Swing Up",
-  "email": "info@savoyswingup.com",
-  "web": "http://www.savoyswingup.com",
-  "phone": "656123456",
-  "event_type": "festival",
-  "styles": [
-    "lindy hop",
-    "balboa",
-    "blues"
-  ],
-  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque interdum rutrum sodales. Nullam mattis fermentum libero, non volutpat."
-}, {
-  "id" : 4,
-  "title": "C. Taller de Àlex Mas & Núria Bonet",
-  "begin-date": "24/06/2015",
-  "end-date": "",
-  "country": "Portugal",
-  "country-code": "PT",
-  "city": "Lisboa",
-  "address": "C/ Domingo Beltrán 19, Vitoria-Gasteiz",
-  "organizer": "Swing Up",
-  "email": "info@savoyswingup.com",
-  "web": "http://www.savoyswingup.com",
-  "phone": "656123456",
-  "event_type": "class",
-  "styles": [
-    "lindy hop",
-    "balboa",
-    "blues"
-  ],
-  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque interdum rutrum sodales. Nullam mattis fermentum libero, non volutpat."
-}, {
-  "id" : 5,
-  "title": "S. Taller de Àlex Mas & Núria Bonet",
-  "begin-date": "24/06/2015",
-  "end-date": "",
-  "country": "Spain",
-  "country-code": "ES",
-  "city": "Vitoria-Gasteiz",
-  "address": "C/ Domingo Beltrán 19, Vitoria-Gasteiz",
-  "organizer": "Swing Up",
-  "email": "info@savoyswingup.com",
-  "web": "http://www.savoyswingup.com",
-  "phone": "656123456",
-  "event_type": "social",
-  "styles": [
-    "lindy hop",
-    "balboa",
-    "blues"
-  ],
-  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque interdum rutrum sodales. Nullam mattis fermentum libero, non volutpat."
-}, {
-  "id" : 6,
-  "title": "C. Taller de Àlex Mas & Núria Bonet",
-  "begin-date": "24/06/2015",
-  "end-date": "",
-  "country": "Spain",
-  "country-code": "ES",
-  "city": "Vitoria-Gasteiz",
-  "address": "C/ Domingo Beltrán 19, Vitoria-Gasteiz",
-  "organizer": "Swing Up",
-  "email": "info@savoyswingup.com",
-  "web": "http://www.savoyswingup.com",
-  "phone": "656123456",
-  "event_type": "class",
-  "styles": [
-    "lindy hop",
-    "balboa",
-    "blues"
-  ],
-  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque interdum rutrum sodales. Nullam mattis fermentum libero, non volutpat."
-}];
+    "id" : 1,
+    "title": "WD My Passport 2 TB Wired External HDD (Yellow)",
+    "capacity": "2TB",
+    "country": "India",
+    "brand": "Western Digital",
+    "image": "../images/wd-20ezrz-original-imaebyrjkeh4ctpk.jpeg",
+    "country-code": "IN",
+    "product_type": "External HDD",
+    "email": "info@earnestek.com",
+    "web": "https://www.flipkart.com/wd-elements-2-5-inch-1-tb-external-hard-drive/p/itmdmhdqfhr4ndhq?pid=ACCDMHDQJHVRPYAN&lid=LSTACCDMHDQJHVRPYANAOZZLA&marketplace=FLIPKART&srno=b_1_1&otracker=clp_metro_expandable_2_hardd-categ-26eb9_WD_external-hard-disk-store_WQD0Q2NFDK_wp3&fm=neo/merchandising&iid=e1d9daa6-44a6-4ee4-8c68-019ebdc038ff.ACCDMHDQJHVRPYAN.SEARCH&ppt=Store%20Browse&ppn=Search%20Page",
+    "price": "5799",
+    "styles": [
+      "laptop",
+      "2.5"
+    ],
+    "description": "This hard drive has a storage capacity of 1 TB that’s sufficient for storing your college graduation day pictures, some of your favourite videos, movies and other personal files. "
+  }, {
+    "id" : 3,
+    "title": "WD My Passport 1 TB Wired External HDD (BLUE)",
+    "capacity": "1TB",
+    "country": "India",
+    "brand": "Western Digital",
+    "image": "../images/wd-20ezrz-original-imaebyrjkeh4ctpk.jpeg",
+    "country-code": "IN",
+    "product_type": "External HDD",
+    "email": "info@earnestek.com",
+    "web": "https://www.flipkart.com/wd-elements-2-5-inch-1-tb-external-hard-drive/p/itmdmhdqfhr4ndhq?pid=ACCDMHDQJHVRPYAN&lid=LSTACCDMHDQJHVRPYANAOZZLA&marketplace=FLIPKART&srno=b_1_1&otracker=clp_metro_expandable_2_hardd-categ-26eb9_WD_external-hard-disk-store_WQD0Q2NFDK_wp3&fm=neo/merchandising&iid=e1d9daa6-44a6-4ee4-8c68-019ebdc038ff.ACCDMHDQJHVRPYAN.SEARCH&ppt=Store%20Browse&ppn=Search%20Page",
+    "price": "4799",
+    "styles": [
+      "Desktop",
+      "3.5"
+    ],
+    "description": "This hard drive has a storage capacity of 1 TB that’s sufficient for storing your college graduation day pictures, some of your favourite videos, movies and other personal files. "
+  },  {
+    "id" : 4,
+    "title": "WD 500 GB Laptop Internal HDD (WD5000LPCX)",
+    "capacity": "1TB",
+    "country": "India",
+    "brand": "Seagate",
+    "image": "../images/wd-20ezrz-original-imaebyrjkeh4ctpk.jpeg",
+    "country-code": "IN",
+    "product_type": "Internal HDD",
+    "email": "info@earnestek.com",
+    "web": "https://www.flipkart.com/wd-elements-2-5-inch-1-tb-external-hard-drive/p/itmdmhdqfhr4ndhq?pid=ACCDMHDQJHVRPYAN&lid=LSTACCDMHDQJHVRPYANAOZZLA&marketplace=FLIPKART&srno=b_1_1&otracker=clp_metro_expandable_2_hardd-categ-26eb9_WD_external-hard-disk-store_WQD0Q2NFDK_wp3&fm=neo/merchandising&iid=e1d9daa6-44a6-4ee4-8c68-019ebdc038ff.ACCDMHDQJHVRPYAN.SEARCH&ppt=Store%20Browse&ppn=Search%20Page",
+    "price": "2799",
+    "styles": [
+      "laptop",
+      "2.5"
+    ],
+    "description": "This hard drive has a storage capacity of 1 TB that’s sufficient for storing your college graduation day pictures, some of your favourite videos, movies and other personal files. "
+  }, {
+    "id" : 5,
+    "title": "Wd Blue 2 TB Desktop Internal Hard Disk Drive (20ezrz)",
+    "capacity": "2TB",
+    "country": "India",
+    "brand": "Western Digital",
+    "image": "../images/wd-20ezrz-original-imaebyrjkeh4ctpk.jpeg",
+    "country-code": "IN",
+    "product_type": "Internal HDD",
+    "email": "info@earnestek.com",
+    "web": "https://www.flipkart.com/wd-elements-2-5-inch-1-tb-external-hard-drive/p/itmdmhdqfhr4ndhq?pid=ACCDMHDQJHVRPYAN&lid=LSTACCDMHDQJHVRPYANAOZZLA&marketplace=FLIPKART&srno=b_1_1&otracker=clp_metro_expandable_2_hardd-categ-26eb9_WD_external-hard-disk-store_WQD0Q2NFDK_wp3&fm=neo/merchandising&iid=e1d9daa6-44a6-4ee4-8c68-019ebdc038ff.ACCDMHDQJHVRPYAN.SEARCH&ppt=Store%20Browse&ppn=Search%20Page",
+    "price": "2799",
+    "styles": [
+      "desktop",
+      "3.5"
+    ],
+    "description": "This hard drive has a storage capacity of 1 TB that’s sufficient for storing your college graduation day pictures, some of your favourite videos, movies and other personal files. "
+  },{
+    "id" : 6,
+    "title": "WD 500 GB Laptop Internal HDD (WD5000LPCX)",
+    "capacity": "1TB",
+    "country": "India",
+    "brand": "Seagate",
+    "image": "../images/wd-20ezrz-original-imaebyrjkeh4ctpk.jpeg",
+    "country-code": "IN",
+    "product_type": "Internal HDD",
+    "email": "info@earnestek.com",
+    "web": "https://www.flipkart.com/wd-elements-2-5-inch-1-tb-external-hard-drive/p/itmdmhdqfhr4ndhq?pid=ACCDMHDQJHVRPYAN&lid=LSTACCDMHDQJHVRPYANAOZZLA&marketplace=FLIPKART&srno=b_1_1&otracker=clp_metro_expandable_2_hardd-categ-26eb9_WD_external-hard-disk-store_WQD0Q2NFDK_wp3&fm=neo/merchandising&iid=e1d9daa6-44a6-4ee4-8c68-019ebdc038ff.ACCDMHDQJHVRPYAN.SEARCH&ppt=Store%20Browse&ppn=Search%20Page",
+    "price": "2799",
+    "styles": [
+      "laptop",
+      "2.5"
+    ],
+    "description": "This hard drive has a storage capacity of 1 TB that’s sufficient for storing your college graduation day pictures, some of your favourite videos, movies and other personal files. "
+  }];
 
 renderCards(data);
 
@@ -429,7 +425,7 @@ function initCountrySelect(){
           text : item.name 
       }));
   });
-  //selectHTML.material_select();
+  selectHTML.material_select();
 }
 initCountrySelect();
 
@@ -441,7 +437,7 @@ $("#country-select").on('change', function() {
   //renderCards(filterByAttr("country-code", value, data));
 });
 
-$(".event-type-filter").change(function() {
+$(".product-type-filter").change(function() {
   renderCards(applyFilters());
   //renderCards(applyEventTypeFilter());
 });
@@ -455,9 +451,9 @@ function applyCountryFilter(data){
 }
 function applyEventTypeFilter(data){
   var result = [];
-      $('input[name="event-type-filter"]:checked').each(function() {
+      $('input[name="product-type-filter"]:checked').each(function() {
          console.log(this.value); 
-         var filtered = filterByAttr("event_type", this.value, data);
+         var filtered = filterByAttr("product_type", this.value, data);
         result = mergeJSONObjectsRemovingDuplicates(result,filtered);
       });
   return result;
@@ -469,7 +465,7 @@ function applyFilters(){
   console.log("FILTERS:");
   console.log($('#search').val());
   console.log($("#country-select").val());
-  console.log($('input[name="event-type-filter"]:checked').serialize());
+  console.log($('input[name="product-type-filter"]:checked').serialize());
   
   eventArray = applyEventTypeFilter(data);
   eventArray = applyCountryFilter(eventArray);
@@ -496,4 +492,5 @@ function mergeJSONObjectsRemovingDuplicates(arr1, arr2){
   });
   return arr1;
 }
+
 }(jQuery));
