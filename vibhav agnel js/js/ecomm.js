@@ -1,51 +1,6 @@
 //Init select inputs
 (function($){
 
-$('select').material_select();
-
-
-//Searcher
-$( "#search" ).keyup(function( event ) {
-  var value = $(this).val();
-  console.log(event);
-  if(event.which == 13) {
-     event.preventDefault();
-  }
-  //console.log("Filter..."+value);
-  //renderCards(filterByAttr("title",value, data));
-  renderCards(applyFilters());
-});
-
-function applyTitleFilter(data){
-  var value = $('#search').val();
-  return filterByAttr("title",value, data);
-}
-
-function filterByAttr(attr, value, data) {
-  console.log(attr,value);
-  var value = value.toLowerCase();
-  console.log(value);
-  return $.grep(data, function(n, i) {
-      console.log(n);
-      console.log(i);
-    console.log(n[attr].toLowerCase().indexOf(value));
-    return n[attr].toLowerCase().indexOf(value) != -1;
-  });
-}
-
-function renderCards(data) {
-  console.log("RENDERING");
-  var html = '';
-  $.each(data, function(key, value) {
-    console.log(value);
-    html += '<div class="col s12 m6 l4"><div class="card"><div class="card-content white-text"><div class="card-image"><img src="'+ value.image+'"></div><div class="card__meta"><a href="#"><b>Rs.&nbsp;</b><i>' + value.price + '/-</i> </a></div><span class="card-title grey-text text-darken-4">' + value.title + '</span><p class="card-subtitle grey-text text-darken-2">' + value.description + '</p><span class="text-darken-2 card-info"><i class="small material-icons">label</i>&nbsp;' + value.styles + '</span></div><div class="card-action"><a href="#" class="card-action-right" onclick="addToCart('+value.id+')"><i class="material-icons">&nbsp;add_shopping_cart</i>ADD TO CART</a> </div></div>';
-
-    html += '</div>';
-  });
-  $('#card-container').html(html);
-
-}
-
 //DATA:
 var data = [{
   "id" : 0,
@@ -63,8 +18,8 @@ var data = [{
     "laptop",
     "2.5"
   ],
-  "description": "This hard drive has a storage capacity of 1 TB that’s sufficient for storing your college graduation day pictures, some of your favourite videos, movies and other personal files. "
-}, {
+  "description": "This hard drive has a storage capacity of 1 TB that’s sufficient for storing personal files. "
+  }, {
     "id" : 1,
     "title": "WD My Passport 2 TB Wired External HDD (Yellow)",
     "capacity": "2TB",
@@ -80,7 +35,7 @@ var data = [{
       "laptop",
       "2.5"
     ],
-    "description": "This hard drive has a storage capacity of 1 TB that’s sufficient for storing your college graduation day pictures, some of your favourite videos, movies and other personal files. "
+    "description": "This hard drive has a storage capacity of 1 TB that’s sufficient for storing your personal files. "
   }, {
     "id" : 3,
     "title": "WD My Passport 1 TB Wired External HDD (BLUE)",
@@ -97,7 +52,7 @@ var data = [{
       "Desktop",
       "3.5"
     ],
-    "description": "This hard drive has a storage capacity of 1 TB that’s sufficient for storing your college graduation day pictures, some of your favourite videos, movies and other personal files. "
+    "description": "This hard drive has a storage capacity of 1 TB that’s sufficient for storing your personal files. "
   },  {
     "id" : 4,
     "title": "WD 500 GB Laptop Internal HDD (WD5000LPCX)",
@@ -114,7 +69,7 @@ var data = [{
       "laptop",
       "2.5"
     ],
-    "description": "This hard drive has a storage capacity of 1 TB that’s sufficient for storing your college graduation day pictures, some of your favourite videos, movies and other personal files. "
+    "description": "This hard drive has a storage capacity of 1 TB that’s sufficient for storing your personal files. "
   }, {
     "id" : 5,
     "title": "Wd Blue 2 TB Desktop Internal Hard Disk Drive (20ezrz)",
@@ -131,7 +86,7 @@ var data = [{
       "desktop",
       "3.5"
     ],
-    "description": "This hard drive has a storage capacity of 1 TB that’s sufficient for storing your college graduation day pictures, some of your favourite videos, movies and other personal files. "
+    "description": "This hard drive has a storage capacity of 1 TB that’s sufficient for storing your personal files. "
   },{
     "id" : 6,
     "title": "WD 500 GB Laptop Internal HDD (WD5000LPCX)",
@@ -148,11 +103,9 @@ var data = [{
       "laptop",
       "2.5"
     ],
-    "description": "This hard drive has a storage capacity of 1 TB that’s sufficient for storing your college graduation day pictures, some of your favourite videos, movies and other personal files. "
-  }];
-
-renderCards(data);
-
+    "description": "This hard drive has a storage capacity of 1 TB that’s sufficient for storing your personal files. "
+}];
+//Country codes
 var countries = [ 
   {name: 'Afghanistan', code: 'AF'}, 
   {name: 'Åland Islands', code: 'AX'}, 
@@ -399,6 +352,53 @@ var countries = [
   {name: 'Zimbabwe', code: 'ZW'} 
 ];
 
+$('select').material_select();
+
+// display data
+function renderCards(data) {
+  //console.log("RENDERING");
+  var html = '';
+  $.each(data, function(key, value) {
+    //console.log(value);
+    html += '<div class="col s12 m6 l4"><div class="card"><div class="card-content white-text"><div class="card-image"><img src="'+ value.image+'"></div><div class="card__meta"><a href="#"><b>Rs.&nbsp;</b><i>' + value.price + '/-</i> </a></div><span class="card-title grey-text text-darken-4">' + value.title + '</span><p class="card-subtitle grey-text text-darken-2">' + value.description + '</p><span class="text-darken-2 card-info"><i class="small material-icons">label</i>&nbsp;' + value.styles + '</span></div><div class="card-action"><a href="#" class="card-action-right" onclick="addToCart('+value.id+')"><i class="material-icons">&nbsp;add_shopping_cart</i>ADD TO CART</a> </div></div>';
+
+    html += '</div>';
+  });
+  $('#card-container').html(html);
+
+}
+renderCards(data);
+
+//most basic filter function
+function filterByAttr(attr, value, data) {
+  //console.log(attr,value);
+  var value = value.toLowerCase();
+  //console.log(value);
+  return $.grep(data, function(n, i) {
+      //console.log(n);
+     // console.log(i);
+    //console.log(n[attr].toLowerCase().indexOf(value));
+    return n[attr].toLowerCase().indexOf(value) != -1;
+  });
+}
+
+//Searche bar function
+$( "#search" ).keyup(function( event ) {
+  var value = $(this).val();
+  //console.log(event);
+  if(event.which == 13) {
+     event.preventDefault();
+  }
+  renderCards(applyFilters());
+});
+
+//apply title filter funcion
+function applyTitleFilter(data){
+  var value = $('#search').val();
+  return filterByAttr("title",value, data);
+}
+
+// initialize country field
 function initCountrySelect(){
   var selectHTML = $('#country-select');
   selectHTML.append($('<option>', { 
@@ -414,22 +414,22 @@ function initCountrySelect(){
   });
   selectHTML.material_select();
 }
-
 initCountrySelect();
 
+
 //FILTER EVENTS:
+
 $("#country-select").on('change', function() {
   var value = $(this).val();
-  console.log("Filter COUNTRY: "+value);
+  //console.log("Filter COUNTRY: "+value);
   renderCards(applyFilters());
-  //renderCards(filterByAttr("country-code", value, data));
 });
 
 $(".product-type-filter").change(function() {
   renderCards(applyFilters());
-  //renderCards(applyEventTypeFilter());
 });
 
+//apply country filter function
 function applyCountryFilter(data){
   var value = $("#country-select").val();
   if (value == 'all'){
@@ -437,10 +437,12 @@ function applyCountryFilter(data){
   }
   return filterByAttr("country-code", value, data);
 }
-function applyEventTypeFilter(data){
+
+//apply Product Type Filter function
+function applyProductTypeFilter(data){
   var result = [];
       $('input[name="product-type-filter"]:checked').each(function() {
-         console.log(this.value); 
+         //console.log(this.value); 
          var filtered = filterByAttr("product_type", this.value, data);
         result = mergeJSONObjectsRemovingDuplicates(result,filtered);
       });
@@ -450,17 +452,17 @@ function applyEventTypeFilter(data){
 function applyFilters(){
   var eventArray = [];
   
-  console.log("FILTERS:");
-  console.log($('#search').val());
-  console.log($("#country-select").val());
-  console.log($('input[name="product-type-filter"]:checked').serialize());
+  // console.log("FILTERS:");
+  // console.log($('#search').val());
+  // console.log($("#country-select").val());
+  // console.log($('input[name="product-type-filter"]:checked').serialize());
   
-  eventArray = applyEventTypeFilter(data);
-  console.log(eventArray);
+  eventArray = applyProductTypeFilter(data);
+  // console.log(eventArray);
   eventArray = applyCountryFilter(eventArray);
-  console.log(eventArray);
+  // console.log(eventArray);
   eventArray = applyTitleFilter(eventArray);
-  console.log(eventArray);
+  // console.log(eventArray);
   return eventArray;
 }
 
@@ -494,19 +496,6 @@ function openModal1() {
   $('#modal1').openModal();
 };
 
-function openModal2() {
-  //simulate ajax call to get the modal content
-  var htmlFromServer = getHtml();
-
-  //append the html to the modal
-  $('#modal_content').html(htmlFromServer);
-  //init the tabs
-  $('ul.tabs').tabs();
-  //select the first tab
-  $('ul.tabs').tabs('select_tab', 'test1');
-  //open the modal
-  $('#modal1').openModal();
-};
 
 function getHtml() {
   return '<div class="col s12">' +
@@ -529,4 +518,50 @@ function getHtml() {
     '<div id="test4" class="col s12">Test 4</div>';
 };
 
+function renderCart(data) {
+    cartItem = new Array();
+    if (sessionStorage.getItem("cartItems") === null) {
+      html = "<h5>NO ITEMS IN CART</h5>"
+    }
+    else{
+      cartItem = JSON.parse(sessionStorage.getItem("cartItems"));
+    
+      var html = '';
+      $.each(data, function(key, value) {
+        test = $.inArray(key, cartItem);
+        if (test != -1){
+          html += '<tr class="cartProduct">'+
+          '<td class=".itemname">'+value.title+'</td>'+
+          '<td class=".price" >'+value.price+'</td>'+
+          '<td class=".quantity"><input type="number"></td>'+
+          '<td><span class="new badge red product-removal"> REMOVE ITEM </span></td>'+
+          '<td class="">0.87</td>'+
+          '</tr>';
+        }
+      });
+  }
+  $('#productList').html(html);
+}
+renderCart(data);
+
+function removeItem(productbutton){
+  // remove item from local storage
+  cartItem = new Array();
+  cartItem = JSON.parse(sessionStorage.getItem("cartItems"));
+
+  //remove from cart front end
+  var productRow = $(productbutton).parent().parent();
+  productRow.slideUp(fadeTime, function() {
+    productRow.remove();
+  });
+}
+
+/* Assign actions */
+$('.quantity input').change( function() {
+  updateQuantity(this);
+});
+
+$('.product-removal ').click( function() {
+  removeItem(this);
+});
 }(jQuery));

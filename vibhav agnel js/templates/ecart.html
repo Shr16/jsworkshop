@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>Earnestek Academy - quiz template using js </title>
+  <title>Earnestek Academy - Ecommerce </title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -17,7 +17,7 @@
   <nav class="light-blue lighten-1" role="navigation">
     <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
       <ul class="right hide-on-med-and-down">
-          <li><a onclick="openModal1()"><i class="material-icons" id='cartbtn'>&nbsp;shopping_cart</i>CART<span class="new badge red " data-badge-caption="Items">4</span></a></li>
+          <li><a href="cart.html"><i class="material-icons" id='cartbtn'>&nbsp;shopping_cart</i>CART<span class="new badge red " data-badge-caption="Items">4</span></a></li>
       </ul>
 
       <ul id="nav-mobile" class="side-nav">
@@ -42,12 +42,12 @@
             </div>
           </nav>
           <ul class="collapsible" data-collapsible="expandable">
-            <li class="">
+            <!--<li class="">
               <div class="collapsible-header active"><i class="material-icons">local_activity</i>Styles</div>
               <div class="collapsible-body " style="display: none; padding-top: 0px; margin-top: 0px; padding-bottom: 0px; margin-bottom: 0px;">
                 <p>
                   <select multiple>
-                  <!--<option value="" disabled selected>Choose your option</option>-->
+                  <!--<option value="" disabled selected>Choose your option</option>
                   <option value="1" selected>Laptop</option>
                   <option value="2" selected>Desktop</option>
                   <option value="3" selected>2.5''</option>
@@ -56,7 +56,7 @@
                   <label>Materialize Select</label>
                 </p>
               </div>
-            </li>
+            </li>-->
             <li>
               <div class="collapsible-header active"><i class="material-icons">pin_drop</i>Country</div>
               <div class="collapsible-body">
@@ -183,17 +183,6 @@
         </div>
       </div>
     </div>
-    <!-- Modal Structure -->
-    <div id="modal1" class="modal">
-      <div class="modal-content">
-        <h4>Shopping Cart</h4>
-        <div id="modal_content" class="row">
-      
-        </div>
-        <div class="modal-footer">
-          <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Checkout</a>
-        </div>
-      </div>
 
 </body>
 <footer class="page-footer orange">
@@ -232,54 +221,23 @@
         </div>
     <!--  Scripts-->
     <script type="text/javascript" src="../js/jquery-2.1.1.min.js"></script>
-  <script type="text/javascript" src="js/init.js"></script>
-  <script type="text/javascript" src="../js/materialize.js"></script>
-  <script type="text/javascript" src="../js/ecomm.js"></script>
+    <script type="text/javascript" src="js/init.js"></script>
+    <script type="text/javascript" src="../js/materialize.js"></script>
+    <script type="text/javascript" src="../js/ecomm.js"></script>
 
-  <script type="text/javascript">
-    function addToCart(productid){
-      cartItems = new Array();
-      if (sessionStorage.getItem("cartItems") === null) {
-          cartItems.push(productid);
+    <script type="text/javascript">
+      function addToCart(productid){
+        cartItems = new Array();
+        if (sessionStorage.getItem("cartItems") === null) {
+            cartItems.push(productid);
+          }
+        else{
+            cartItems = JSON.parse(sessionStorage.getItem("cartItems"));
+            cartItems.push(productid);
         }
-      else{
-          cartItems = JSON.parse(sessionStorage.getItem("cartItems"));
-          cartItems.push(productid);
+        sessionStorage.setItem("cartItems",JSON.stringify(cartItems));
+        jQuery('.badge').html(cartItems.length);
       }
-      sessionStorage.setItem("cartItems",JSON.stringify(cartItems));
-      jQuery('.badge').html(cartItems.length);
-    }
-    function openModal1() {
-      //simulate ajax call to get the modal content
-      var htmlFromServer = getHtml();
-
-      //append the html to the modal
-      $('#modal_content').html(htmlFromServer);
-      //open the modal
-      $('#modal1').openModal();
-    }
-    function getHtml() {
-  return '<div class="col s12">' +
-    '<ul class="tabs">' +
-    '<li class="tab col s3 active"><a href="#test1">Test 1</a></li>' +
-    '<li class="tab col s3"><a href="#test2">Test 2</a></li>' +
-    '<li class="tab col s3 disabled"><a href="#test3">Disabled Tab</a></li>' +
-    '<li class="tab col s3"><a href="#test4">Test 4</a></li>' +
-    '</ul></div>' +
-    '<div id="test1" class="col s12">default tab</div>' +
-    '<div id="test2" class="col s12">' +
-    '<div class="row country-other">' +
-    '<div class="input-field col s12">' +
-    '<input type="text" class="validate" id="address_detail">' +
-    '<label class="active" for="address_detail">This tab is not default</label>' +
-    '</div>' +
-    '</div>' +
-    '</div>' +
-    '<div id="test3" class="col s12">Test 3</div>' +
-    '<div id="test4" class="col s12">Test 4</div>';
-};
-  </script>
-      
-      
-</footer>
+    </script>      
+  </footer>
 </html>
