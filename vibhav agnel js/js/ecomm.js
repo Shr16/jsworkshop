@@ -354,14 +354,14 @@ var countries = [
 
 $('select').material_select();
 
-// display data
+//1 display data
 function renderCards(data) {
   //console.log("RENDERING");
   var html = '';
   $.each(data, function(key, value) {
     //console.log(value);
     html += '<div class="col s12 m6 l4"><div class="card"><div class="card-content white-text"><div class="card-image"><img src="'+ value.image+'"></div><div class="card__meta"><a href="#"><b>Rs.&nbsp;</b><i>' + value.price + '/-</i> </a></div><span class="card-title grey-text text-darken-4">' + value.title + '</span><p class="card-subtitle grey-text text-darken-2">' + value.description + '</p><span class="text-darken-2 card-info"><i class="small material-icons">label</i>&nbsp;' + value.styles + '</span></div><div class="card-action"><a href="#" class="card-action-right" onclick="addToCart('+value.id+')"><i class="material-icons">&nbsp;add_shopping_cart</i>ADD TO CART</a> </div></div>';
-
+    
     html += '</div>';
   });
   $('#card-container').html(html);
@@ -369,7 +369,7 @@ function renderCards(data) {
 }
 renderCards(data);
 
-//most basic filter function
+//2. most basic filter function
 function filterByAttr(attr, value, data) {
   //console.log(attr,value);
   var value = value.toLowerCase();
@@ -382,7 +382,7 @@ function filterByAttr(attr, value, data) {
   });
 }
 
-//Searche bar function
+//3. Searche bar function
 $( "#search" ).keyup(function( event ) {
   var value = $(this).val();
   //console.log(event);
@@ -392,13 +392,13 @@ $( "#search" ).keyup(function( event ) {
   renderCards(applyFilters());
 });
 
-//apply title filter funcion
+//4. apply title filter funcion
 function applyTitleFilter(data){
   var value = $('#search').val();
   return filterByAttr("title",value, data);
 }
 
-// initialize country field
+//5. initialize country field
 function initCountrySelect(){
   var selectHTML = $('#country-select');
   selectHTML.append($('<option>', { 
@@ -417,7 +417,7 @@ function initCountrySelect(){
 initCountrySelect();
 
 
-//FILTER EVENTS:
+//6. FILTER EVENTS:
 
 $("#country-select").on('change', function() {
   var value = $(this).val();
@@ -429,7 +429,7 @@ $(".product-type-filter").change(function() {
   renderCards(applyFilters());
 });
 
-//apply country filter function
+//7. apply country filter function
 function applyCountryFilter(data){
   var value = $("#country-select").val();
   if (value == 'all'){
@@ -438,7 +438,7 @@ function applyCountryFilter(data){
   return filterByAttr("country-code", value, data);
 }
 
-//apply Product Type Filter function
+//8. apply Product Type Filter function
 function applyProductTypeFilter(data){
   var result = [];
       $('input[name="product-type-filter"]:checked').each(function() {
@@ -449,6 +449,7 @@ function applyProductTypeFilter(data){
   return result;
 }
 
+//9. overall functions
 function applyFilters(){
   var eventArray = [];
   
@@ -466,7 +467,7 @@ function applyFilters(){
   return eventArray;
 }
 
-//HELPER
+//10. HELPER
 function mergeJSONObjectsRemovingDuplicates(arr1, arr2){
   $.merge(arr1, arr2);
 
@@ -517,7 +518,7 @@ function getHtml() {
     '<div id="test3" class="col s12">Test 3</div>' +
     '<div id="test4" class="col s12">Test 4</div>';
 };
-
+//11. render cart data function
 function renderCart(data) {
     cartItem = new Array();
     if (sessionStorage.getItem("cartItems") === null) {
@@ -525,16 +526,19 @@ function renderCart(data) {
     }
     else{
       cartItem = JSON.parse(sessionStorage.getItem("cartItems"));
+
     
       var html = '';
       $.each(data, function(key, value) {
-        test = $.inArray(key, cartItem);
+        test = $.inArray(value.id, cartItem);
+        // console.log(key,cartItem );
+        // console.log(test);
         if (test != -1){
           html += '<tr class="cartProduct">'+
           '<td class=".itemname">'+value.title+'</td>'+
           '<td class=".price" >'+value.price+'</td>'+
           '<td class=".quantity"><input type="number"></td>'+
-          '<td><span class="new badge red product-removal"> REMOVE ITEM </span></td>'+
+          '<td><span class="new badge red product-removal" data-badge-caption="" data="'+value.id+'"> REMOVE ITEM </span></td>'+
           '<td class="">0.87</td>'+
           '</tr>';
         }
@@ -543,17 +547,26 @@ function renderCart(data) {
   $('#productList').html(html);
 }
 renderCart(data);
-
+//12. Remove cart Items function
 function removeItem(productbutton){
   // remove item from local storage
   cartItem = new Array();
   cartItem = JSON.parse(sessionStorage.getItem("cartItems"));
+  removedItemId = $(productbutton).attr('data');
+  
+  noin = cartItem.indexOf(parseInt(removedItemId));
+    if (noin != -1) {
+      cartItem.splice(noin, 1);
+    }
 
   //remove from cart front end
   var productRow = $(productbutton).parent().parent();
   productRow.slideUp(fadeTime, function() {
     productRow.remove();
   });
+  sessionStorage.setItem("cartItems",JSON.stringify(cartItem));
+  updateCartBagde();
+  
 }
 
 /* Assign actions */
@@ -561,7 +574,19 @@ $('.quantity input').change( function() {
   updateQuantity(this);
 });
 
+//.
 $('.product-removal ').click( function() {
   removeItem(this);
 });
+
+function updateCartBagde(){
+    var cartItems = JSON.parse(sessionStorage.getItem("cartItems"));
+    if( cartItems != null || cartItems != undefined){
+      jQuery('.cartBadge').html(cartItems.length);
+    }
+    else{
+      jQuery('.cartBadge').html(' ');
+    }
+}
+updateCartBagde();
 }(jQuery));
