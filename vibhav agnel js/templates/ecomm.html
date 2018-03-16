@@ -18,7 +18,8 @@
     <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
       <ul class="right hide-on-med-and-down">
           <li><a href="cart.html"><i class="material-icons" id='cartbtn'>&nbsp;shopping_cart</i>CART<span class="new badge red cartBadge" data-badge-caption="Items">4</span></a></li>
-      </ul>
+          <li><a href="compare.html">Compare</a></li>
+        </ul>
 
       <ul id="nav-mobile" class="side-nav">
         <li><a href="#">Cart<span class="new badge">4</span></a></li>
@@ -237,11 +238,19 @@
       function addToCart(productid){
         cartItems = new Array();
         if (sessionStorage.getItem("cartItems") === null) {
+          console.log('test');
             cartItems.push(productid);
           }
         else{
+          console.log('test2');
             cartItems = JSON.parse(sessionStorage.getItem("cartItems"));
-            cartItems.push(productid);
+            if(cartItems.indexOf(productid) != -1){
+              console.log("item already present");
+            }
+            else{
+              cartItems.push(productid);
+            }
+            
         }
         sessionStorage.setItem("cartItems",JSON.stringify(cartItems));
         jQuery('.badge').html(cartItems.length);

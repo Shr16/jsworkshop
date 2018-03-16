@@ -359,8 +359,19 @@ function renderCards(data) {
   //console.log("RENDERING");
   var html = '';
   $.each(data, function(key, value) {
-    //console.log(value);
-    html += '<div class="col s12 m6 l4"><div class="card"><div class="card-content white-text"><div class="card-image"><img src="'+ value.image+'"></div><div class="card__meta"><a href="#"><b>Rs.&nbsp;</b><i>' + value.price + '/-</i> </a></div><span class="card-title grey-text text-darken-4">' + value.title + '</span><p class="card-subtitle grey-text text-darken-2">' + value.description + '</p><span class="text-darken-2 card-info"><i class="small material-icons">label</i>&nbsp;' + value.styles + '</span></div><div class="card-action"><a href="#" class="card-action-right" onclick="addToCart('+value.id+')"><i class="material-icons">&nbsp;add_shopping_cart</i>ADD TO CART</a> </div></div>';
+    console.log(key,value);
+    html += '<div class="col s12 m6 l4">'+
+            '<div class="card"><div class="card-content white-text">'+
+            '<div class="card-image"><img src="'+ value.image+'"></div>'+
+            '<div class="card__meta"><a href="#"><b>Rs.&nbsp;</b><i>' + value.price + '/-</i> </a></div>'+
+            '<span class="card-title grey-text text-darken-4">' + value.title + '</span><p class="card-subtitle grey-text text-darken-2">' + value.description + '</p>'+
+            '<span class="text-darken-2 card-info"><i class="small material-icons">label</i>&nbsp;' + value.styles + '</span> '+
+            '<p><input type="checkbox" id="comparebtn'+value.id+'" class="compareBtn" /><label for="comparebtn'+value.id+'">Add to COMPARE</label></p>'+
+            '</div><div class="card-action">'+
+            '<a href="#" class="card-action-right" onclick="addToCart('+value.id+')"><i class="material-icons">&nbsp;add_shopping_cart</i>ADD TO CART</a>'+
+            '<a href="#" class="card-action-right" onclick="buynow('+value.id+')">Buy Now</a>'+
+            '</div>'+
+            '</div>';
     
     html += '</div>';
   });
@@ -375,9 +386,9 @@ function filterByAttr(attr, value, data) {
   var value = value.toLowerCase();
   //console.log(value);
   return $.grep(data, function(n, i) {
-      //console.log(n);
-     // console.log(i);
-    //console.log(n[attr].toLowerCase().indexOf(value));
+      // console.log(n);
+      // console.log(i);
+      // console.log(n[attr].toLowerCase().indexOf(value));
     return n[attr].toLowerCase().indexOf(value) != -1;
   });
 }
@@ -397,6 +408,7 @@ function applyTitleFilter(data){
   var value = $('#search').val();
   return filterByAttr("title",value, data);
 }
+
 
 //5. initialize country field
 function initCountrySelect(){
@@ -449,6 +461,11 @@ function applyProductTypeFilter(data){
   return result;
 }
 
+function applyBrandTypeFilter(data){
+ let testvar = filterByAttr('brand','Seagate' , data);
+ console.log(testvar);
+}
+applyBrandTypeFilter(data);
 //9. overall functions
 function applyFilters(){
   var eventArray = [];
@@ -484,40 +501,15 @@ function mergeJSONObjectsRemovingDuplicates(arr1, arr2){
   return arr1;
 }
 
-//init the modal
-//$('.modal-trigger').leanModal();
+function remove(array, element) {
+  const index = array.indexOf(element);
+  
+  if (index !== -1) {
+      array.splice(index, 1);
+  }
+}
+/********** Cart Page Functions *****************/
 
-function openModal1() {
-  //simulate ajax call to get the modal content
-  var htmlFromServer = getHtml();
-
-  //append the html to the modal
-  $('#modal_content').html(htmlFromServer);
-  //open the modal
-  $('#modal1').openModal();
-};
-
-
-function getHtml() {
-  return '<div class="col s12">' +
-    '<ul class="tabs">' +
-    '<li class="tab col s3 active"><a href="#test1">Test 1</a></li>' +
-    '<li class="tab col s3"><a href="#test2">Test 2</a></li>' +
-    '<li class="tab col s3 disabled"><a href="#test3">Disabled Tab</a></li>' +
-    '<li class="tab col s3"><a href="#test4">Test 4</a></li>' +
-    '</ul></div>' +
-    '<div id="test1" class="col s12">default tab</div>' +
-    '<div id="test2" class="col s12">' +
-    '<div class="row country-other">' +
-    '<div class="input-field col s12">' +
-    '<input type="text" class="validate" id="address_detail">' +
-    '<label class="active" for="address_detail">This tab is not default</label>' +
-    '</div>' +
-    '</div>' +
-    '</div>' +
-    '<div id="test3" class="col s12">Test 3</div>' +
-    '<div id="test4" class="col s12">Test 4</div>';
-};
 //11. render cart data function
 function renderCart(data) {
     cartItem = new Array();
@@ -531,15 +523,13 @@ function renderCart(data) {
       var html = '';
       $.each(data, function(key, value) {
         test = $.inArray(value.id, cartItem);
-        // console.log(key,cartItem );
-        // console.log(test);
         if (test != -1){
           html += '<tr class="cartProduct">'+
           '<td class=".itemname">'+value.title+'</td>'+
           '<td class=".price" >'+value.price+'</td>'+
           '<td class=".quantity"><input type="number"></td>'+
           '<td><span class="new badge red product-removal" data-badge-caption="" data="'+value.id+'"> REMOVE ITEM </span></td>'+
-          '<td class="">0.87</td>'+
+          '<td class=""></td>'+
           '</tr>';
         }
       });
@@ -589,4 +579,94 @@ function updateCartBagde(){
     }
 }
 updateCartBagde();
+
+
+/********** Compare Page Functions**************/
+
+
+// function to allow only 2 products for comparison.
+$('.compareBtn').change(function(){
+  citems = [];
+
+  if(localStorage.getItem('citems') == null){
+    if(this.checked){
+      citems[0] = this.id;
+      localStorage.setItem('citems',JSON.stringify(citems));
+      console.log(citems);
+      console.log(localStorage.getItem('citems'));
+    }
+    else{
+      
+      console.log("not");
+    }
+  }
+  else{
+    citems = JSON.parse(localStorage.getItem('citems'));
+    if(this.checked){
+      citems.push(this.id);
+      localStorage.setItem('citems',JSON.stringify(citems));
+      console.log(citems);
+    }
+    else{
+      citems = JSON.parse(localStorage.getItem('citems'));
+      remove(citems,this.id);
+      console.log(citems);
+      localStorage.setItem('citems',JSON.stringify(citems));
+    }
+    if(citems.length == 2){
+      $('.compareBtn:not(:checked)').attr('disabled',true);
+    }
+    else{
+      $('.compareBtn').attr('disabled',false);
+    }
+  }
+});
+// function to search product in data and return array
+function cmpsearch(nameKey, myArray){
+  for (var i=0; i < myArray.length; i++) {
+      if (myArray[i].id === parseInt(nameKey)) {
+          return myArray[i];
+      }
+  }
+}
+function compare(){
+  var cmphtml,ncmphtml = '';
+  citems = JSON.parse(localStorage.getItem('citems'));
+  prod1 = citems[0];
+  prod2 = citems[1]; 
+  prodid1 = prod1.toString().slice(10);
+  prodid2 = prod2.toString().slice(10);
+  product1 = cmpsearch(prodid1,data);
+  product2 = cmpsearch(prodid2,data);
+  for (key in product1){
+    console.log(product1,product2,key);
+    if(product1[key] == product2[key]){
+      cmphtml += '<tr class="cartProduct">'+
+        '<td class=".itemkey">'+key+'</td>'+
+        '<td class=".item1" >'+product1[key]+'</td>'+
+        '<td class=".item2">'+ product2[key]+'</td>'+
+        '</tr>';
+    }
+    else{
+      ncmphtml += '<tr class="ncartProduct">'+
+      '<td class=".itemkey">'+key+'</td>'+
+      '<td class=".item1" >'+product1[key]+'</td>'+
+      '<td class=".item2">'+product2[key]+'</td>'+
+      '</tr>';
+      console.log("in");
+    }
+  }
+  $('#compareList').html(cmphtml);
+  $('#ncompareList').html(ncmphtml);
+}
+function renderCompareCart(data) {
+  cartItem = new Array();
+  if (sessionStorage.getItem("cItems") === null) {
+    html = "<h5>NO ITEMS IN COMPARE</h5>"
+  }
+  else{
+    compare();
+  }
+}
+compare();
 }(jQuery));
